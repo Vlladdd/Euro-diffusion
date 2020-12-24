@@ -16,6 +16,8 @@ class Grid{
     private var motif_id = 0
     private var countriesCount = 0
     private var error = false
+    private let initialMotifsCount = 1000000
+    private let portionDivisor = 1000
     var errors = [String]()
 
     
@@ -25,13 +27,14 @@ class Grid{
             for city in country.cities{
                 if !error{
                     city.motif_id = motif_id
-                    city.motifs[motif_id] = 1000000
+                    city.motifs[motif_id] = initialMotifsCount
                     if checkIfEmpty(city.x!, city.y!){
                         cities.append(city)
                     }
                     else {
                         error = true
                         errors.append("Cities from different countries have same coordinates!")
+                        break
                     }
                 }
             }
@@ -58,34 +61,31 @@ class Grid{
         while(ready == false){
             for country in countries {
                 for city in country.cities{
-                    city.isReady(countriesCount)
+                    city.updateReadyState(countriesCount)
                 }
-                country.isReady()
+                if country.ready == false {
+                    country.updateReadyState()
+                }
                 if country.ready == false {
                     country.days += 1
                 }
             }
-            isReady()
+            ready = updateReadyState()
             coinsTransfer()
         }
     }
     
     private func checkCountries() -> Bool{
-        var possible = false
         for country in countries {
-            possible = false
             for city in country.cities{
                 for neighbour in city.neighbors {
                     if city.motifs != neighbour.motifs {
-                        possible = true
+                        return true
                     }
                 }
             }
-            if !possible {
-                return possible
-            }
         }
-        return possible
+        return false
     }
     
     private func checkIfEmpty(_ x: Int, _ y: Int) -> Bool{
@@ -114,8 +114,8 @@ class Grid{
             for neigbour in city.neighbors {
                 for (key,_) in city.motifs {
                     var value = 0
-                    if city.motifs[key]! >= 1000 {
-                        value = Int(city.motifs[key]!/1000)
+                    if city.motifs[key]! >= portionDivisor {
+                        value = Int(city.motifs[key]!/portionDivisor)
                     }
                     if value > 0 {
                         for city2 in cities{
@@ -133,15 +133,12 @@ class Grid{
         }
     }
     
-    private func isReady(){
-        var count = 0
+    private func updateReadyState() -> Bool{
         for city in cities {
-            if city.ready == true {
-                count += 1
+            if city.ready == false {
+                return false
             }
         }
-        if count == cities.count {
-            ready = true
-        }
+        return true
     }
 }

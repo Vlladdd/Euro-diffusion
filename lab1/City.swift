@@ -23,7 +23,7 @@ class City {
         self.y = y
     }
     
-    func isReady(_ countriesCount: Int){
+    func updateReadyState(_ countriesCount: Int){
         if motifs.count == countriesCount {
             ready = true
         }

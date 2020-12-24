@@ -35,7 +35,7 @@ class Country {
         }
     }
     
-    func isReady(){
+    func updateReadyState(){
         var count = 0
         for city in cities {
             if city.ready == true {

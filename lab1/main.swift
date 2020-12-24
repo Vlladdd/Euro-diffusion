@@ -10,7 +10,7 @@ import Foundation
 
 
 var input = Input("file:///Users/vladnechiporenko/Developer/lab1/lab1/test")
-if !input.error{
+if input.errors.count == 0{
     if input.data.count > 0{
         for x in 0...input.data.count-1{
             let grid = Grid(input.data[x]!)
