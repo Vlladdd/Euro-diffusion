@@ -62,11 +62,7 @@ class Input{
                         let condition = Int(newStringArray1[1]) != nil && Int(newStringArray1[2]) != nil && Int(newStringArray1[3]) != nil && Int(newStringArray1[4]) != nil
                         let condition1 = newStringArray1[0].rangeOfCharacter(from: decimalCharacters) == nil && newStringArray1[0].count > 0 && newStringArray1[0].count < 26
                         if condition {
-                            let condition2 = Int(newStringArray1[1])! >= 1 && Int(newStringArray1[1])! <= 10
-                            let condition3 = Int(newStringArray1[3])! >= 1 && Int(newStringArray1[3])! <= 10 && Int(newStringArray1[3])! >= Int(newStringArray1[1])!
-                            let condition4 = Int(newStringArray1[2])! >= 1 && Int(newStringArray1[2])! <= 10
-                            let condition5 = Int(newStringArray1[4])! >= 1 && Int(newStringArray1[4])! <= 10 && Int(newStringArray1[4])! >= Int(newStringArray1[2])!
-                            if  condition1 && condition2 && condition3 && condition4 && condition5{
+                            if  condition1 && checkCondition(newStringArray1,1,3) && checkCondition(newStringArray1,2,4){
                                 let country = Country(newStringArray1[0], Int(newStringArray1[1])!, Int(newStringArray1[2])!, Int(newStringArray1[3])!, Int(newStringArray1[4])!)
                                 countries.append(country)
                                 countryCount -= 1
@@ -97,6 +93,13 @@ class Input{
                 }
             }
         }
+    }
+    
+    private func checkCondition(_ newStringArray1: [String], _ x: Int, _ y: Int) -> Bool {
+        if Int(newStringArray1[x])! >= 1 && Int(newStringArray1[x])! <= 10 && Int(newStringArray1[y])! >= 1 && Int(newStringArray1[y])! <= 10 && Int(newStringArray1[y])! >= Int(newStringArray1[x])! {
+            return true
+        }
+        return false
     }
     
     private func outputErrors() {

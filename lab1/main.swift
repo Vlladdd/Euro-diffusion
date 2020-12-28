@@ -14,7 +14,12 @@ if input.errors.count == 0{
     if input.data.count > 0{
         for x in 0...input.data.count-1{
             let grid = Grid(input.data[x]!)
-            _ = Output(input.data[x]!,x+1,grid.errors)
+            if grid != nil {
+            _ = Output(input.data[x]!,x+1,grid!.errors)
+            }
+            else {
+               print("Cities from different countries have same coordinates!")
+            }
         }
     }
 }

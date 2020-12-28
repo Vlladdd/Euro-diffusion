@@ -21,7 +21,7 @@ class Grid{
     var errors = [String]()
 
     
-    init(_ countries: [Country]){
+    init?(_ countries: [Country]){
         self.countries = countries
         for country in countries {
             for city in country.cities{
@@ -32,9 +32,7 @@ class Grid{
                         cities.append(city)
                     }
                     else {
-                        error = true
-                        errors.append("Cities from different countries have same coordinates!")
-                        break
+                        return nil
                     }
                 }
             }
